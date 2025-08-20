@@ -37,25 +37,31 @@ async def main():
 
         tualet = {}
         for r  in  responses:
-
-            for item in r.get("data").get("items"):
-                try:
-                    tualet[item["id"]] = {
-                        "address": item['fullAddress'],
-                        "titile": item['title'],
-                        "coordinates": item['coordinates'],
-                        "images": [i['urlTemplate'].replace("%s", "XXXL") for i in item['photos']['items']]
-                    }
-                except Exception as e:
+            try:
+                for item in r.get("data").get("items"):
                     try:
                         tualet[item["id"]] = {
                             "address": item['fullAddress'],
                             "titile": item['title'],
                             "coordinates": item['coordinates'],
-                            "images": []
+                            "images": [i['urlTemplate'].replace("%s", "XXXL") for i in item['photos']['items']]
                         }
                     except Exception as e:
-                        print(e)
+                        try:
+                            tualet[item["id"]] = {
+                                "address": item['fullAddress'],
+                                "titile": item['title'],
+                                "coordinates": item['coordinates'],
+                                "images": []
+                            }
+                        except Exception as e:
+                            print(e)
+            except Exception as e:
+                    print(e)
+        import json
+        with open('data1.json', 'w', encoding='utf-8') as f:
+            json.dump(tualet, f, ensure_ascii=False, indent=4)
+
         # Выводим собранные ответы
         for idx, resp in enumerate(responses):
             print(f"\nОтвет {idx + 1}:\n{resp}")

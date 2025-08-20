@@ -31,7 +31,7 @@ def string_to_md5(input_string):
 engine = create_engine(
     f'mysql+mysqlconnector://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}?charset=utf8mb4&collation=utf8mb4_general_ci'
 )
-with open("data.json", 'r', encoding='utf-8') as file:
+with open("data1.json", 'r', encoding='utf-8') as file:
     data = json.load(file)
 
 Base = declarative_base()
