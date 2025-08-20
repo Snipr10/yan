@@ -31,9 +31,6 @@ class PrsrToilets(Base):
     description = Column(Text)
 
 
-# Создаем таблицу (если еще не создана)
-Base.metadata.create_all(engine)
-
 # Создаем сессию
 Session = sessionmaker(bind=engine)
 session = Session()
