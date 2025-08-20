@@ -60,30 +60,30 @@ new_id = '1234567890abcdef1234567890abcdef'  # пример id (32 символ�
 new_address = '123 Main St, City'
 new_coordinates_wkt = 'POINT(30.12345 50.54321)'  # WKT формат для POINT
 new_description = 'Описание объекта'
-try:
-    for d in data.values():
-        Session = sessionmaker(bind=engine)
-        session = Session()
-        id_ = string_to_md5(d['address'])
-        # Создаем объект новой записи
-        new_record = PrsrToilets(
-            id=id_,
-            address=d['address'],
-            coordinates=f"POINT({d['coordinates'][0]} {d['coordinates'][1]})" ,
-            description=d['titile']
-        )
+for d in data.values():
+    try:
 
-        # Добавляем и коммитим
-        session.add(new_record)
-        # for i in d['images']:
-        #     session.add(PrsrImage(
-        #         toilet_id=id_,
-        #         image_url=i
-        #     ))
-        session.commit()
-    print("Данные успешно вставлены")
-except Exception as e:
-    print(f"Ошибка: {e}")
-    session.rollback()
-finally:
-    session.close()
+            Session = sessionmaker(bind=engine)
+            session = Session()
+            id_ = string_to_md5(d['address'])
+            # Создаем объект новой записи
+            new_record = PrsrToilets(
+                id=id_,
+                address=d['address'],
+                coordinates=f"POINT({d['coordinates'][0]} {d['coordinates'][1]})" ,
+                description=d['titile']
+            )
+
+            # Добавляем и коммитим
+            session.add(new_record)
+            for i in d['images']:
+                session.add(PrsrImage(
+                    toilet_id=id_,
+                    image_url=i
+                ))
+            session.commit()
+    except Exception as e:
+        print(f"Ошибка: {e} {d}")
+        session.rollback()
+    finally:
+        session.close()
