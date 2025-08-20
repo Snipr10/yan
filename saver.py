@@ -46,7 +46,7 @@ class PrsrToilets(Base):
 
 
 class PrsrImage(Base):
-    __tablename__ = 'prsr_toilets'
+    __tablename__ = 'prsr_toilets_images'
     toilet_id = Column(String(32), primary_key=True)
 
     image_url = Column(String(1000), primary_key=True)
