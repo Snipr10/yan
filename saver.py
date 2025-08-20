@@ -17,7 +17,7 @@ db_name = 'parser'
 local_port = 3307  # замените на ваш локальный порт
 
 engine = create_engine(
-    f'mysql+mysqlconnector://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}'
+    f'mysql+mysqlconnector://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}?charset=utf8mb4&collation=utf8mb4_general_ci'
 )
 
 Base = declarative_base()
