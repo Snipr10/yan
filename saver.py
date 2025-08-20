@@ -53,8 +53,7 @@ class PrsrImage(Base):
 
 
 # Создаем сессию
-Session = sessionmaker(bind=engine)
-session = Session()
+
 
 # Данные для вставки
 new_id = '1234567890abcdef1234567890abcdef'  # пример id (32 символа)
@@ -63,6 +62,8 @@ new_coordinates_wkt = 'POINT(30.12345 50.54321)'  # WKT формат для POIN
 new_description = 'Описание объекта'
 try:
     for d in data.values():
+        Session = sessionmaker(bind=engine)
+        session = Session()
         id_ = string_to_md5(d['address'])
         # Создаем объект новой записи
         new_record = PrsrToilets(
@@ -74,12 +75,12 @@ try:
 
         # Добавляем и коммитим
         session.add(new_record)
-        for i in d['images']:
-            session.add(PrsrImage(
-                toilet_id=id_,
-                image_url=i
-            ))
-    session.commit()
+        # for i in d['images']:
+        #     session.add(PrsrImage(
+        #         toilet_id=id_,
+        #         image_url=i
+        #     ))
+        session.commit()
     print("Данные успешно вставлены")
 except Exception as e:
     print(f"Ошибка: {e}")
